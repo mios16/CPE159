@@ -3,7 +3,7 @@
 #ifndef _TYPEDEF_H_
 #define _TYPEDEF_H_
 
-#define TIME_LIMIT 3         // max timer count to run
+#define TIME_LIMIT 3       // max timer count to run
 #define MAX_PROC_NUM 20      // max number of processes
 #define Q_LEN 20             // queuing capacity
 #define PROC_STACK_SIZE 4096 // process runtime stack in bytes
@@ -21,5 +21,6 @@ typedef struct {             // proc queue type
    int head, tail, len;      // where head and tail are, and current length
    int q[Q_LEN];             // indices into q[] array to place or get element
 } q_t;
+
 
 #endif
