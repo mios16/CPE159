@@ -7,6 +7,7 @@
 #include "extern.h"
 #include "proc.h"
 #include "main.h"
+#include "entry.h"
 
 void StartProcISR(int new_pid) 
 {
@@ -16,6 +17,28 @@ void StartProcISR(int new_pid)
 	{
 	      EnQ(new_pid, &ready_q);	//then, enqueue this new pid into the ready queue
 	}
+
+	//build initial trapframe in proc stack
+	MyBzero((char *)&proc_stack[new_pid], PROC_STACK_SIZE);	//call MyBzero() to clear the stack 1st
+
+	pcb[new_pid].TF_ptr = (TF_t *) &proc_stack[new_pid][PROC_STACK_SIZE - sizeof(TF_t)];	//set TF_ptr of PCB to close to end (top) of stack, then fill out (against last byte of stack, has space for a trapframe o build)
+
+	pcb[new_pid].TF_ptr->eflags = EF_DEFAULT_VALUE|EF_INTR;	//set INTR flag
+	pcb[new_pid].TF_ptr->cs = get_cs();				//standard fair
+	pcb[new_pid].TF_ptr->ds = get_ds();				//standard fair
+	pcb[new_pid].TF_ptr->es = get_es();				//standard fair
+	pcb[new_pid].TF_ptr->fs = get_fs();				//standard fair
+	pcb[new_pid].TF_ptr->gs = get_gs();				//standard fair
+
+	if(new_pid == 0)
+	{
+		pcb[new_pid].TF_ptr->eip = (unsigned int)IdleProc;
+	}
+	else
+	{
+		pcb[new_pid].TF_ptr->eip = (unsigned int)UserProc;
+	}
+
 }
 
 void EndProcISR() 
@@ -52,3 +75,7 @@ void TimerISR()
       			//if none, Scheduler will pick 0 as running PID)
 	}
 }
+
+
+
+
