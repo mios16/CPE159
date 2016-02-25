@@ -38,7 +38,6 @@ void StartProcISR(int new_pid)
 	{
 		pcb[new_pid].TF_ptr->eip = (unsigned int)UserProc;
 	}
-
 }
 
 void EndProcISR() 
@@ -70,24 +69,19 @@ void TimerISR()
         	pcb[running_pid].state = READY;       //change its state to READY
         	EnQ(running_pid, &ready_q);		//queue it to ready queue
         	running_pid = -1;			//set running PID to -1
-   	
-		//(Scheduler() will get next PID from ready queue if any;
-      			//if none, Scheduler will pick 0 as running PID)
 	}
 }
 
-
-********void GetPidISR()
+void GetPidISR()
 {
-	
+	pcb[running_pid].TF_ptr->eax = running_pid;	
 }
 
-*********void SleepISR()
+void SleepISR()
 {
-	int secs = pcb[running_pid].TF_ptr -> eax;
-	pcb[running_pid].waketime = OS_Clock + secs * 100;
-	EnQ(sleep_q[i], &ready_q);
-	pcb[running_pid].state = READY;       //change its state to READY
-	running_pid = 0;
-
+	int secs = pcb[running_pid].TF_ptr->eax;
+	pcb[running_pid].wake_time = OS_clock + (secs * 100);	//calculate the wake time for the calling process, mark the wake time in its PCB
+	EnQ(running_pid, &sleep_q);		//queue its PID to the sleep queue
+	pcb[running_pid].state = SLEEP;       	//change its state to SLEEP
+	running_pid = -1;			//reset current running PID
 }

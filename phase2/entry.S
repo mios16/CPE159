@@ -27,6 +27,7 @@ ENTRY(TimerEntry)
    pushl $TIMER_INTR
    jmp CompleteTFenterKernel
 
+//Phase 2 add 2 new entries : GetPidEntry, SleepEntry
 ENTRY(GetPidEntry)
    pushl $GETPID_INTR
    jmp CompleteTFenterKernel

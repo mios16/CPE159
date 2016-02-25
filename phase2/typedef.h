@@ -18,7 +18,8 @@ typedef struct {             // PCB describes proc image
    int runtime;              // runtime since loaded
    int total_runtime;        // total runtime since created
    TF_t *TF_ptr;             // points to trapframe of process
-   int wake_time;	     // phase 2
+   //phase 2
+   int wake_time;	     // add to pcb_t: int wake_time
 } pcb_t;
 
 typedef struct {             // proc queue type

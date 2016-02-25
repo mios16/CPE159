@@ -6,5 +6,8 @@
 void StartProcISR();
 void EndProcISR();
 void TimerISR();
+//phase 2
+void GetPidISR();
+void SleepISR();
 
 #endif
