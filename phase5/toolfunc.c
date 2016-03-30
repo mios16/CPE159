@@ -92,12 +92,13 @@ void *MsgDeQ(msg_q_t *msg_q_ptr)
 //phase 5
 void MyStrcpy(char *dest, char *src)
 {
-	while(*src)
+	while(*src != '\0')
 	{
 		*dest = *src;
 		dest++;
 		src++;
 	}
+	*dest = '\0';
 }	
 
 
