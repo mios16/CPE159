@@ -92,8 +92,9 @@ void *MsgDeQ(msg_q_t *msg_q_ptr)
 //phase 5
 void MyStrcpy(char *dest, char *src)
 {
-	while(*dest = *src)
+	while(*src)
 	{
+		*dest = *src;
 		dest++;
 		src++;
 	}
