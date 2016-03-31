@@ -153,7 +153,7 @@ void MsgSndISR(int msg_addr)
 void MsgRcvISR(int msg_addr)
 {
 	int msg_q_id;
-	msg_t *receiving_msg_ptr, *queued_msg_ptr;
+	msg_t *receiving_msg_ptr, *queued_msg_ptr;	
 
 	receiving_msg_ptr = (msg_t *) msg_addr;	//set 1st abot to point to msg space
 	msg_q_id = receiving_msg_ptr->recipient; 

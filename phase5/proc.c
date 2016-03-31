@@ -34,7 +34,9 @@ void InitProc(int product_sem_id)
 	msg_t temp_msg;
 	char greet[] = "Greetings from team MIOS!\n";
 	MyStrcpy((char *) &temp_msg.data, (char *) &greet); //send a greetings message
-
+	
+	temp_msg.recipient = 2;	
+	
 	while(1)	//loops infinitely to poll for a key
 	{
 		Sleep(1);	//repeat to sleep for a second inside the infinite loop
@@ -68,6 +70,7 @@ void PrintDriver()
 	int i, code;
 	char *p;
 	msg_t temp_msg;
+	
 
  	printing_semaphore = SemGet(0);	//request semaphore printing_semaphore, limit 0.
 
@@ -83,6 +86,7 @@ void PrintDriver()
 
 	while(1)//forever loop:
 	{
+		temp_msg.recipient = running_pid;	
 		MsgRcv(&temp_msg);//receive a message, get if msg to print *******
 		p = temp_msg.data;
 		cons_printf("PrintDriver (PID %d) now prints...\n", GetPid()); 	//a notification msg (match how demo runs)
