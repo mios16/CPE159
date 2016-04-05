@@ -1,4 +1,5 @@
 // syscall.h
+#include "typedef.h"
 
 #ifndef _SYSCALL_H_
 #define _SYSCALL_H_

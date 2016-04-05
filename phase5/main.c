@@ -46,15 +46,15 @@ int main()
 	InitKernelControl();	//call InitKernelControl() (see below)	
 	
 	pid = DeQ(&free_q);	
-	StartProcISR(pid, IdleProc);
+	StartProcISR((int) pid, (int) IdleProc);
 	
 	//phase 3
 	pid = DeQ(&free_q);	
-	StartProcISR(pid, InitProc);
+	StartProcISR((int) pid, (int) InitProc);
 
 	//phase 5
 	pid = DeQ(&free_q);	
-	StartProcISR(pid, PrintDriver);
+	StartProcISR((int) pid, (int) PrintDriver);
 
 	LoadRun(pcb[0].TF_ptr);	//call LoadRun() to load/run IdleProc	
 	return 0;		//this will never be executed
@@ -83,7 +83,10 @@ void InitKernelData()
 	MyBzero((char *)&sleep_q, sizeof(q_t));	//reset sleep_q
 
 	//phase 4
-	MyBzero((char *)&msg_q, sizeof(msg_q_t)); 		
+	for(i =0; i < MAX_PROC_NUM; i++)
+	{
+		MyBzero((char *)&msg_q[i], sizeof(msg_q_t)); 		
+	}
 }
 
 void InitKernelControl() 
